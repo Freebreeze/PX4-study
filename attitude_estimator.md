@@ -1,51 +1,14 @@
 [TOC]
 
+[![](https://img.shields.io/badge/PX4-FreeBreeze-brightgreen.svg)](https://github.com/Freebreeze/PX4-study)
+
+
+
 **对于每一个变量，我们都需要知道它是在哪一个坐标系下的值**
 
-# 流程图
-```flow
-st=>start: attitude_estimator_q_main
-op=>operation: Your Operation
-cond=>condition: Yes or No?
-e=>end
-st->op->cond
-cond(yes)->e
-cond(no)->op
-```
+![](https://raw.githubusercontent.com/Freebreeze/PX4-study/master/attitude_estimator.jpg)
 
-```flow
-st=>start: Start|past:>http://www.google.com[blank]
-e=>end: End:>http://www.google.com
-op1=>operation: get_hotel_ids|past
-op2=>operation: get_proxy|current
-sub1=>subroutine: get_proxy|current
-op3=>operation: save_comment|current
-op4=>operation: set_sentiment|current
-op5=>operation: set_record|current
 
-cond1=>condition: ids_remain空?
-cond2=>condition: proxy_list空?
-cond3=>condition: ids_got空?
-cond4=>condition: 爬取成功??
-cond5=>condition: ids_remain空?
-
-io1=>inputoutput: ids-remain
-io2=>inputoutput: proxy_list
-io3=>inputoutput: ids-got
-
-st->op1(right)->io1->cond1
-cond1(yes)->sub1->io2->cond2
-cond2(no)->op3
-cond2(yes)->sub1
-cond1(no)->op3->cond4
-cond4(yes)->io3->cond3
-cond4(no)->io1
-cond3(no)->op4
-cond3(yes, right)->cond5
-cond5(yes)->op5
-cond5(no)->cond3
-op5->e
-```
 
 # 函数解释
 ## attitude_estimator_q_main
@@ -139,5 +102,18 @@ if (orb_copy(ORB_ID(vehicle_global_position), _global_pos_sub, &gpos) == PX4_OK)
 
 # 传感器
 1. 加速度计：加速度计测量的是在机体坐标系下三个轴的加速度
+2. 陀螺仪：计算飞机的角加速度
+3. 磁力计：计算磁偏角在机体坐标系下向量
 
-# 其他
+# 坐标系
+1.机体坐标系
+	
+2.地理坐标系（NED）
+
+# 误差的计算
+1.主要的数据来源是来自于陀螺仪。
+	可以这样理解：在飞机起飞之前或得最初的姿态$q_0$,后面根据陀螺仪测得的角速度$w$可以积分得到角度再加上之前的角度就能得到当前姿态。这个步骤是通过四元数的微分方程获得的。四元数微分方程就是物体旋转过程中四元数微分值与旋转角速度之间的关系。
+2.加速度计和地磁计都是为了修正误差
+	加速度计通过计算出物体当前加速度，再减去物体运动加速度，就可以获得重力加速度在集体坐标系下的分解，这个值是准确的。我们只需要吧重力在地理坐标系下的向量$(0,0,1)$通过四元数旋转矩阵转化到机体坐标系下，就能得到另一种重力加速度在机体坐标系下的分解，这个分解是有误差的，原因是姿态测量存在误差导致旋转矩阵产生误差，我们只需要把误差计算出来然后再更新旋转矩阵就好。这里用到一次旋转矩阵，有一次误差。
+	地磁计原理是一样的，我们通过地磁计测量出磁场在机体坐标系下的分解，这个是准确的，然后我们再把磁偏角（地理坐标系下）通过旋转矩阵转换到机体坐标系下，这个是有误差的，接着更新旋转矩阵就好。这里用到一次旋转矩阵，有一次误差。
+	如果没有磁偏角数据，我们只需要先将地磁计测到的数据通过旋转矩阵转化到地理坐标系下，得到向量$(a_x,a_y,a_z)$，这时候$a_y$一般是不为零的，但是磁偏角在地理坐标系下$a_y$是为零的，所以我们就可以在做一次变化，把向量改写成$(\sqrt{a_x^2+a_y^2},0,a_z)$ ，这样转化之后再通过旋转矩阵变化成机体坐标系下的向量计算误差就可以了。这里用到了两次旋转矩阵，有两次误差。
