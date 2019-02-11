@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/breeze/px4-test/PX4-study/CMAKE/Cmakestudy/Demo2/MathFunctions.cc
+
+/home/breeze/px4-test/PX4-study/CMAKE/Cmakestudy/Demo2/MathFunctions.h
+
+/home/breeze/px4-test/PX4-study/CMAKE/Cmakestudy/Demo2/main.cc
+stdio.h
+-
+stdlib.h
+-
+MathFunctions.h
+/home/breeze/px4-test/PX4-study/CMAKE/Cmakestudy/Demo2/MathFunctions.h
+
