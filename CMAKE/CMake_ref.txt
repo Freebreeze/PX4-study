@@ -1,0 +1,15 @@
+
+	
+CMake 入门实战:
+    http://www.hahack.com/codes/cmake/
+
+CMake 学习笔记 
+    (一) http://blog.csdn.net/dbzhang800/article/details/6314073
+    (二) http://blog.csdn.net/dbzhang800/article/details/6329068
+    (三) http://blog.csdn.net/dbzhang800/article/details/6329314
+    (四) http://blog.csdn.net/dbzhang800/article/details/6340102
+    (五) http://blog.csdn.net/dbzhang800/article/details/6341029
+    (六) http://blog.csdn.net/dbzhang800/article/details/6341803
+
+PICMake
+    https://github.com/zdzhaoyong/PICMake
