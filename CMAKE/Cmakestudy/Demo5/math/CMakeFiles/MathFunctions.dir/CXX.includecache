@@ -6,9 +6,5 @@
 
 #IncludeRegexTransform: 
 
-/home/breeze/px4-test/PX4-study/CMAKE/Cmakestudy/11.02.2019/main.cc
-stdio.h
--
-stdlib.h
--
+/home/breeze/px4-test/PX4-study/CMAKE/Cmakestudy/Demo5/math/MathFunctions.cc
 
