@@ -1,0 +1,12 @@
+# 为什么要更新子模块
+PX4新代码改变了很多东西，同时子模块改变也挺大的。将主代码切换到较老版本时会发生子模块版本不符合的情况，这时候需要注意，切换后需要同步下子模块
+
+    make clean
+    git checkout <whatever tag>
+    git submodule update --init --recursive
+    git submodule sync --recursive
+    git submodule update --init --recursive #only needed in odd cases, I think
+    make <whatever target>
+————————————————
+版权声明：本文为CSDN博主「dayL_W」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/u013181595/article/details/85392771
