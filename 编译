@@ -10,3 +10,22 @@ PX4新代码改变了很多东西，同时子模块改变也挺大的。将主�
 ————————————————
 版权声明：本文为CSDN博主「dayL_W」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
 原文链接：https://blog.csdn.net/u013181595/article/details/85392771
+
+---
+
+**更新模块注意事项**
+
+1. 一定要先check到对的版本再更新，否则是最新的子模块版本，和你要编译的版本不对应
+2. 如果更新的时候出现无法递归进子模块路径，重新执行命令，知道所有子模块都更新成功
+3. 开热点！！！
+4. 有时候出现（-54）的错误，是因为缓存大小不够，参考[git error：error: RPC failed; curl 56 GnuTLS recv error (-54): Error in the pull function](https://blog.csdn.net/stone8761/article/details/79072148)，但是这里要注意缓存，文章中开到了200000000，可能电脑没那么大，所以少开一个0试试
+
+---
+
+
+# cmake 找不到cc编译器
+
+Your 5. command defines CC=mpicc ... Do you have mpicc installed? – derHugo Jul 17 '17 at 6:08
+I'm sure this question/answer will help you – derHugo Jul 17 '17 at 6:11
+Thanks Melebius and derHugo. I think the problem was my compilers couldn't be found so I issued the command: **cmake -DCMAKE_C_COMPILER=/usr/bin/gcc** and that seemed to work. Although I am now faced wih a new set of problems. – Lawrence Amadi Jul 19 '17 at 16:01
+
