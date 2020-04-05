@@ -1,0 +1,2 @@
+1. PX4 官网 ：http://dev.px4.io/master/en/index.html
+2. 设置python默认版本 https://blog.csdn.net/kan2016/article/details/90715519
